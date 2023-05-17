@@ -1,0 +1,9 @@
+{
+    "name": "express app - default",
+    "version": "development version",
+    "sms" : {
+        "ip": "127.0.0.1 - development",
+        "id": "1"
+    },
+	"jwt_key": "AvLwO5qmSABEsBTZ7y7JKv3sM8JzWGhuL4tDkJwVsClVVAcelNSR5Unyhxj6"
+}

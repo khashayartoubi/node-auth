@@ -1,0 +1,8 @@
+{
+	"name": "express app - production",
+	"version": "production version",
+	"sms": {
+		"ip": "127.0.0.1 - production",
+		"id": "1"
+	}
+}
