@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.get("/", usersController.dashboard);
 
-router.get("/profile", usersController.profile);
+// router.get("/profile", usersController.profile);
 
 export default router;

@@ -5,5 +5,6 @@
         "ip": "127.0.0.1 - development",
         "id": "1"
     },
-	"jwt_key": "AvLwO5qmSABEsBTZ7y7JKv3sM8JzWGhuL4tDkJwVsClVVAcelNSR5Unyhxj6"
+	"jwt_key": "a5ad80113f34d99c38e752fda2e0d18f65b0e8308391b00a7981f97c1106bb0731489e39c905333c9bccd796d026ade2d472f54073e267482b30686b4712e589",
+    "jwt_key_refresh":"34b3a83130ccea1362e3f45ea0aca21cc0482ce1e4b41407f14193814a82501184611db90f719b19ce45c4f7a74a34e0c296c6ad699b4630f43ea26b49afd304"
 }

@@ -3,47 +3,57 @@ import _ from "lodash";
 import bcrypt from "bcrypt";
 import config from "config";
 var jwt = require("jsonwebtoken");
-const { users } = require("./../models");
 
 export default new (class AuthController extends controller {
+	// {}
 	
+
 	async register(req, res) {
+		// console.log("==>global", Object.getPrototypeOf(this));
 		const { name, email, password } = req.body;
-		let user = await this.User.findOne({
-			where: {
-				email: email,
-			},
-		});
-		if (user) {
+		if (name && email && password) {
+			let user = await this.Users.findOne({
+				where: {
+					email: email,
+				},
+			});
+			if (user) {
+				return this.response({
+					res,
+					code: 400,
+					message: "this user already registered",
+				});
+			}
+
+			user = await new this.Users({ name, email, password });
+			// user = new this.User(_.pick(req.body, ["name", "email", "password"]));
+			const salt = await bcrypt.genSalt(5);
+			user.password = await bcrypt.hash(user.password, salt);
+			if (user.email === "2btoubi2b@gmail.com") {
+				user.admin = 1;
+			}
+			await user.save();
+			user.toJSON();
+
 			return this.response({
 				res,
+				message: "the user successfuly registered",
+				code: 201,
+				data: _.pick(user, ["id", "name", "email"]),
+			});
+		} else {
+			return this.response({
+				res,
+				message: "the user successfuly registereddddd",
 				code: 400,
-				message: "this user already registered",
+				data: [],
 			});
 		}
-
-
-		
-		user = await new this.User({ name, email, password });
-		// user = new this.User(_.pick(req.body, ["name", "email", "password"]));
-		const salt = await bcrypt.genSalt(5);
-		user.password = await bcrypt.hash(user.password, salt);
-		if(user.email === '2btoubi2b@gmail.com'){
-			user.admin = 1
-		}
-		await user.save();
-		user.toJSON();
-
-		return this.response({
-			res,
-			message: "the user successfuly registered",
-			data: _.pick(user, ["id", "name", "email"]),
-		});
 	}
 
 	async login(req, res) {
 		const { email, password } = req.body;
-		const user = await this.User.findOne({
+		const user = await this.Users.findOne({
 			where: {
 				email,
 			},
@@ -65,11 +75,44 @@ export default new (class AuthController extends controller {
 			});
 		}
 		const token = jwt.sign({ id: user.id }, config.get("jwt_key"));
+
+		// const refreshToken = jwt.sign(
+		// 	{ id: user.id },
+		// 	config.get("jwt_key_refresh"),
+		// 	{ expiresIn: "30s" }
+		// );
+
 		return this.response({
 			res,
 			code: 200,
 			message: "login is successfully",
-			data: token,
+			data: [{ token: token }],
 		});
+	}
+
+	async userModify(req, res) {
+		const { name, email, password } = req.body;
+		const user = await this.Users.findOne({
+			where: {
+				id: req.params.id,
+			},
+		});
+		user.name = name;
+		user.password = password;
+		user.email = email;
+		await user.save();
+		this.response({
+			res,
+			message: "the user successfuly find",
+			code: 201,
+			data: user,
+		});
+	}
+
+	uploadFile(req, res) {
+		console.log(req.body);
+		console.log(req.files);
+		return res.end('')
+		// return res.json({ message: "Successfully uploaded files" });
 	}
 })();

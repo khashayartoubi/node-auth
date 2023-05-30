@@ -3,13 +3,12 @@ const { users } = require("./../models");
 import autoBind from "./autoBind";
 const { validationResult } = require("express-validator");
 
-
-export default class controller{
-	// {}
-	public User;
+export default class controller {
+	public Users;
 	constructor() {
-		this.User = users;
-		autoBind(this)
+		this.Users = users;
+		autoBind(this);
+
 	}
 
 	validationBody(req, res) {
@@ -36,3 +35,5 @@ export default class controller{
 		});
 	}
 }
+
+

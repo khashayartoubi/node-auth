@@ -12,5 +12,7 @@ router.use(
 	authMiddalware.isAdmin,
 	usersRouter
 );
+
 router.use(errorHandler.error);
+
 export default router;
